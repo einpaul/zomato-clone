@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @cuisine.name %>
+</p>
+
+
+
+<%= link_to 'Edit', edit_cuisine_path(@cuisine) %> |
+<%= link_to 'Back', cuisines_path %>
+
+
+
+<h2> Showing <%= @cuisine.name %> Restaurants </h2>
+
+		<% @cuisine.restaurants.each do |restaurant| %>
+		<li><%=	link_to restaurant.name, restaurant_path(restaurant.id) %></li>
+			<% end %>

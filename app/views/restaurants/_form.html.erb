@@ -1,0 +1,92 @@
+<%= form_for @restaurant do |f| %>    <%# this is for creating a form, not a each loop %>
+	
+<% if @restaurant.errors.any? %>
+	<div class="alert alert-danger">
+		<h4>These errors prohibited the form from being saved: </h4>
+		<ul>
+			<% @restaurant.errors.full_messages.each do |msg| %>
+				<li><%= msg %></li>
+			<% end %>
+		</ul>
+		<% end %>
+
+
+		<div class="form-group">
+		<label> Name </label><br/>
+		<%= f.text_field :name, class: "form-control", required: :true %><br/>
+		</div>
+  
+
+		<div class="form-group">
+		<label>Locality</label><br/>
+		<%= f.collection_select :locality_id, Locality.all, :id, :name, {prompt: "select locality"},{class: "form-control"}%><br/>
+		</div>
+
+		<div class="form-group">
+		<label> Contact </label><br/>
+		<%= f.number_field :contact %><br/>
+		</div>
+ 
+
+		<div class="form-group">
+		<label> Address </label><br/>
+		<%= f.text_area :address %><br/> 
+		</div>
+
+
+		<div class="form-group">
+		<label> Cost For two</label><br/>
+		<%= f.number_field :cost_for_two, min: 100 %><br/> 
+		</div>
+
+
+		<div class="form-group">
+		<label> Opening time</label><br/>
+		<%= f.datetime_select :opening_time, discard_day: true, discard_month: true, discard_year: true, order:[:hour, :minute]%><br/> 
+		</div>
+
+
+		<div class="form-group">
+		<label> Closing time</label><br/>
+		<%= f.datetime_select :closing_time, discard_day: true, discard_month: true, discard_year: true, order:[:hour, :minute]%><br/> 
+		</div>
+
+
+
+
+		<div class="form-group">
+		<label>Select Cuisines</label><br/>
+		<%= f.collection_check_boxes :cuisine_ids, Cuisine.all, :id, :name do |b| %><br/>
+		<%= b.check_box %>
+		<%= b.label %>
+			<br/>
+				<% end %>
+				</div>
+
+
+		
+		<div class="form-group">
+		<label>Select Restaurant Type</label><br/>
+		<%= f.collection_check_boxes :restaurant_type_ids, RestaurantType.all, :id, :name do |b| %><br/>
+		<%= b.check_box %>
+		<%= b.label %>
+			<br/>
+				<% end %>
+				</div>
+
+
+		<div class="form-group">			
+		<label>Required Working Days</label><br/>
+		<%= f.collection_check_boxes :working_day_ids, WorkingDay.all, :id, :name do |b| %><br/>
+		<%= b.check_box %>
+		<%= b.label %>
+			<br/>
+				<% end %>
+				</div>
+
+		
+		
+		<%= f.submit "Submit", class: "btn btn-primary" %>  
+		<% end %>
+ 
+		

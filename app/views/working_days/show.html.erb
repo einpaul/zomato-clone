@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @working_day.name %>
+</p>
+
+
+
+<%= link_to 'Edit', edit_working_day_path(@working_day) %> |
+<%= link_to 'Back', working_days_path %>
+
+
+
+<h2> Restaurants Open Today</h2>
+
+		<% @working_day.restaurants.each do |restaurant| %>
+		<li><%=	link_to restaurant.name, restaurant_path(restaurant.id) %></li>
+			<% end %>
+
+			

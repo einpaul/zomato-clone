@@ -1,0 +1,28 @@
+
+<h1>Your Wishlist</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Restaurant Name</th>
+      <th>User</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @wishlists.each_with_index do |wishlist, index| %>
+      <tr>
+        <td><%= index + 1 %></td>
+        <td><%= wishlist.restaurants.pluck(:name).join(", ") %></td>
+        <td><%= wishlist.user_id %></td>
+        <td><%= link_to 'Show', wishlist %></td>
+        <td><%= link_to 'Destroy', wishlist, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+

@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @restaurant_type.name %>
+</p>
+
+
+
+
+
+		<%= link_to 'Edit', edit_restaurant_type_path(@restaurant_type) %> |
+		<%= link_to 'Back', restaurant_types_path %>
+
+
+
+
+
+
+	
+		<h2> Showing <%= @restaurant_type.name %> Places </h2>
+
+		<% @restaurant_type.restaurants.each do |restaurant| %>
+		<li><%=	link_to restaurant.name, restaurant_path(restaurant.id) %></li>
+			<% end %>

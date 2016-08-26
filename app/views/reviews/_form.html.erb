@@ -1,0 +1,35 @@
+<%= form_for @review do |f| %>
+  <% if @review.errors.any? %>
+    <h4>these errors prohibited the form from being saved: </h4>
+    <ul style= "color:red;">
+      <% @review.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+    <% end %>
+
+
+        <label>Restaurant</label><br/>
+        <%= f.collection_select :restaurant_id, current_user.restaurants, :id, :name, {prompt: "select restaurant"}%><br/>
+
+        <label> Review Title </label><br/>
+        <%= f.text_field :title %><br/>  
+    
+
+    
+        <label> Review Body </label><br/>
+        <%= f.text_area :review_body, required: :true%><br/>  
+      
+
+        <label>Enter Your Rating</label><br/>
+        <%#= f.select :status, ["new", "on-going", "completed"] <br/> %>
+
+        <%= f.radio_button :rating, "1" %> 1
+        <%= f.radio_button :rating, "2" %> 2
+        <%= f.radio_button :rating, "3" %> 3 
+        <%= f.radio_button :rating, "4" %> 4
+        <%= f.radio_button :rating, "5" %> 5 <br/>
+        
+
+        <%= f.submit "Submit" %>     
+        <% end %>

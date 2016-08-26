@@ -1,0 +1,112 @@
+<div class="row">
+	<div class="col-md-10">
+
+	<h3> <%= notice %></h3>
+
+<div class="page-header"> 
+	<h2> Listing Restaurants</h2>
+</div>
+
+<% if @restaurants.empty? %>
+<h4>No Restaurants Found <h4>
+<% else %>
+
+
+<script>
+$(document).ready(function(){
+    $('#myTable').DataTable();
+});
+
+</script>
+
+
+
+<table class = "table table-striped" id="myTable">
+	<thead>
+		<tr>
+			<th>#</th>	
+			<th> Name</th>
+			<th> Working Days </th>
+			<th> Daily Working Hours </th>
+			
+			<th> Cost for two</th>
+			<th> Contact</th>
+			<th> Address</th>
+			<th> Restaurant Type</th>
+			<th> Cuisines</th>
+			<th> Locality</th>
+			<th> Action(Show)</th>
+			<th> Number of reviews</th>
+			<th> Code</th>
+
+	
+		</tr>
+	</thead>
+	<tbody>
+
+	<% @restaurants.each_with_index do |restaurant, index| %>
+	<tr>
+		<td><%= index + 1 %></td>
+		<td> <%= restaurant.name.capitalize %> </td>
+		<td> <%= restaurant.working_days.pluck(:name).join(", ") %></td>
+		<td> <%= restaurant.opening_time %> - <%= restaurant.closing_time %></td>
+		<td> <%= restaurant.cost_for_two %> </td>
+		<td> <%= restaurant.contact %></td>
+		<td> <%= restaurant.address %> </td>
+		<td> <%= restaurant.restaurant_types.pluck(:name).join(", ") %> </td>
+		<td> <%= restaurant.cuisines.pluck(:name).join(", ") %> </td>
+		<td> <%= restaurant.locality.name %> </td>
+
+		<td> <%= link_to restaurant_path(restaurant.id) do %>
+			<span class = "glyphicon glyphicon-eye-open"></span>
+			<% end %>
+		</td>
+
+		<td> <%= restaurant.reviews.size %>  </td>
+		<td> <%= restaurant.code %>  </td>
+
+
+		 
+
+
+	
+	</tr>
+	<% end %>
+
+	</tbody>
+</table>
+	<% end %>
+
+<%= link_to "Add Restaurant", new_restaurant_path, class: "btn btn-default" %>
+
+</div>	
+
+
+
+
+<div class = "col-md-2">
+		<div class = "page-header"> 
+
+			<h3>Trending Restaurants</h3>
+
+		
+		</div>
+
+
+			<% @restaurants.each do |restaurant| %>
+			<% if restaurant.reviews.size >= 3 %>
+			<%= restaurant.name %><br/>
+			<% end %>
+			<% end %>
+
+
+
+
+
+
+
+
+
+
+		</div>
+		</div>

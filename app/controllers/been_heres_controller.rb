@@ -1,0 +1,2 @@
+class BeenHeresController < ApplicationController
+end

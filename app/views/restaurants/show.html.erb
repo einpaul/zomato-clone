@@ -1,0 +1,232 @@
+
+
+
+<div class="row">
+	<div class="col-md-8">
+		<div class="page-header">
+			<h2><%= @restaurant.name %><br/>
+				<%= @restaurant.code %><br/></h2>
+			</div>
+			<h3>
+				<span class="glyphicon glyphicon-home"></span><%= @restaurant.address %>
+				<span class="glyphicon glyphicon-earphone"></span><%= @restaurant.contact %>
+				<span class="glyphicon glyphicon-usd"></span><%=  @restaurant.cost_for_two %>
+				<span class="glyphicon glyphicon-cloud"></span><%= @restaurant.locality.name %>
+			</h3>
+
+
+
+			<div class="panel panel-primary">
+				<div class="panel heading"><h2>Restaurant Details</h2></div>
+				<div class="panel-body">
+					<ul class="list-group">
+						
+						<li class ="list-group-item"> <h4>Working Hours:</h4>  <%= @restaurant.opening_time %> - <%= @restaurant.closing_time %><br/>
+
+
+						</li>
+
+						<li class ="list-group-item"> 	<h4>Working Days:</h4>  <%= @restaurant.working_days.pluck(:name).join(", ") %><br/>
+
+
+						</li>
+
+						<li>
+							<li class ="list-group-item"> <h4>Cuisines:</h4> <%= @restaurant.cuisines.pluck(:name).join(", ") %><br/>
+
+							</li>
+
+						</ul>
+					</div>
+				</div>
+			</div>
+
+
+
+
+			<div class="col-md-4">
+				<div class="page-header">
+					<h2> Add a review <br/></h2>
+
+				</div>
+
+
+				
+
+				<%= form_for @review do |f| %>
+
+				<%= f.hidden_field :restaurant_id, value: @restaurant.id %>
+
+				<label> Review Title </label><br/>
+				<%= f.text_field :title %><br/>  
+
+				<label> Review Body </label><br/>
+				<%= f.text_area :review_body, required: :true%><br/>  
+
+				<label>Enter Your Rating</label><br/>
+
+				<%= f.radio_button :rating, "1" %> 1
+				<%= f.radio_button :rating, "2" %> 2
+				<%= f.radio_button :rating, "3" %> 3 
+				<%= f.radio_button :rating, "4" %> 4
+				<%= f.radio_button :rating, "5" %> 5 <br/>
+
+
+				<%= f.submit "Submit", class: "btn btn-primary" %>     
+				<% end %>
+
+
+
+
+			</div>
+		</div>	
+
+		<div class="row">
+			<div class="col-md-7">
+				<div class="page-header">
+					<h2> Reviews based on rating </br>></h2>
+
+				</div>
+
+
+
+
+
+
+
+				
+
+				<% @restaurant.reviews.order(rating: :desc).each_with_index do |r,index|%>
+
+				<%=index + 1%> Review Title  : <%=r.title%><br/> Rating: <%=r.rating%><br />
+				<%end%>
+
+
+
+				<%
+				sum = 0
+				@restaurant.reviews.each do |review|
+					sum += review.rating
+				end
+
+				rating_average = sum/@restaurant.reviews.size.to_f 
+
+				%>
+
+				<h3>Average Rating: <%= rating_average %> </h3>
+
+
+				<h2>Restaurant is  <%= @restaurant.open_now %> </h2> 
+
+				<h3>listing reviews</h3>
+				<ul> <% @restaurant.reviews.each do |review| %>
+						<li> <%= review.title %></li>
+						<% end %>
+				</ul>
+
+				
+
+
+
+				<h2>Reviews acccording to users</h2>
+				
+			 	<% @restaurant.reviews.where('user_id = ?', current_user.id).each do |review| %>
+				<%= review.title %> <br/>- <%= review.review_body %><br/>
+				<% end %>
+				
+				<% @restaurant.reviews.all.where('user_id != ?', current_user.id).each do |review| %>
+				<%= review.title %><br/> - <%= review.review_body %><br/>
+				<% end %>
+				
+
+ 
+		
+
+
+
+		<% if  (BeenHere.where('user_id=? and restaurant_id=?', current_user.id, @restaurant.id).count != 0) %>
+
+		<b>Been Here</b>
+		<% else%>
+
+		<%= link_to "Been here", restaurants_been_here_path(restaurant_id: @restaurant.id),class: "btn btn-default" %>  <%# non restful %>
+
+		<% end %>  
+		<br/>
+
+
+
+
+		<%#= @restaurant.self.check_been_here(@restaurant_id,@user_id) %>  <%# this is the line for class defining been_here %>
+
+
+
+				<h2> Your Reviews </h2>
+
+			 	<% @restaurant.reviews.where('user_id = ?', current_user.id).each do |review| %>
+				<ul>
+				<li><%= review.title %>
+					<%= link_to 'Edit', edit_review_path(review) %> | <%= link_to 'Destroy', review, method: :delete, data: { confirm: 'Are you sure?' } %> </li><br/>
+				</ul>
+						<% end %> 
+
+
+						<h3> Page views:  </h3><%= @restaurant.view_count %></br>
+
+
+
+
+
+
+
+
+
+
+					<% if  (Wishlist.where('user_id=? and restaurant_id=?', current_user.id, @restaurant.id).count != 0) %>
+
+						<button type="button" class="btn btn-info">Added to Wishlist</button>
+
+						<% else%>
+
+						<%= link_to "Add to Wishlist", new_wishlist_path(restaurant_id: @restaurant.id),class: "btn btn-primary" %> 
+
+
+						<% end %>  
+						<br/>
+
+
+
+
+					
+
+
+
+
+			</div>
+		</div>
+				
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

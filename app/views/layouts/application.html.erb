@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Zomato</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+
+  <%= javascript_include_tag "https://www.google.com/jsapi" %>
+  <%= csrf_meta_tags %>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+
+  
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+   
+
+
+  
+</head>
+<body>
+
+  <div class = "container">
+
+
+   <% if user_signed_in? %>
+
+   Current User: <%= current_user.id %>
+    Howdy <%=current_user.email %>
+
+   <nav class="navbar navbar-default ">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span> 
+        </button>
+        <a class="navbar-brand" href="/">Zomato</a>
+      </div>
+
+      <ul class="nav navbar-nav">      
+        <li 
+
+        <% if controller.controller_name == "restaurants" %>
+        class="active"
+        <% end %>>
+
+        <%= link_to restaurants_path do %>
+        Restaurants
+        <% if current_user.is_admin? %>
+        <span class="badge"><%= Restaurant.all.size %></span>
+        <% else %>
+        <span class="badge"><%= current_user.restaurants.size %></span>
+        <% end %>
+        <% end %>
+
+      </li>
+
+      <li
+
+      <% if controller.controller_name == "cuisines" %>
+      class="active"
+      <% end %>>
+
+      <%= link_to "Cuisines", cuisines_path %> 
+    </li> 
+
+    <li
+
+    <% if controller.controller_name == "restaurant_types" %>
+    class="active"
+    <% end %>>
+
+    <%= link_to "Restaurant Types", restaurant_types_path %> 
+  </li> 
+
+  <li
+
+  <% if controller.controller_name == "localities" %>
+  class="active"
+  <% end %>>
+  <%= link_to "Localities", localities_path %> 
+</li> 
+
+
+    <li
+ 
+
+        <% if controller.controller_name == "wishlists" %>
+        class="active"
+        <% end %>>
+
+        <%= link_to wishlists_path do %>
+        My Wishlist
+        
+        
+        <span class="badge"><%= current_user.wishlists.size %></span> <%# make index new screate actions for wishlist, then only. %>
+        
+        <% end %>
+
+      </li>
+
+
+
+
+    </li>       
+
+
+
+
+
+</ul>
+
+<ul class="nav navbar-nav navbar-right">      
+
+  <li>        
+    <%= link_to "Edit Account", edit_user_registration_path %>
+  </li>
+  <li>
+    <%= link_to "Logout", destroy_user_session_path, method: :delete %>
+  </li>
+
+</ul>
+</div>
+</nav>
+<% else %>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">Zomato</a>
+    </div>
+    <ul class="nav navbar-nav">      
+
+    </ul>
+    <ul class="nav navbar-nav navbar-right">      
+
+      <li><%= link_to "Login", new_user_session_path %></li>
+      <li><%= link_to "Sign Up", new_user_registration_path %></li>
+
+    </ul>
+  </div>
+
+  
+</nav>
+<% end %>
+
+<div class="container after-nav">
+
+  <% if notice %>
+  <p class="notice alert alert-success"><%= notice %></p>
+  <% end %>
+
+  <% if alert %>
+  <p class="alert alert alert-danger"><%= alert %></p>
+  <% end %>
+
+
+  <%= yield %>
+</div>
+
+
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> 
+
+<!-- Latest compiled JavaScript -->
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+
+
+
+

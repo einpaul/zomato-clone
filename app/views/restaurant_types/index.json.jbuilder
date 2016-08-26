@@ -1,0 +1,1 @@
+json.array! @restaurant_types, partial: 'restaurant_types/restaurant_type', as: :restaurant_type
